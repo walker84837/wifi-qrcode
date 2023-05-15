@@ -10,6 +10,47 @@
 </head>
 <body>
 	<form>
+		<script src="qrcode.js"></script>
+		<script>
+			var QRErrorCorrectLevel = {
+				L: 1,
+				M: 0,
+				Q: 3,
+				H: 2
+			};
+
+			var qrCodeImage = document.createElement('img');
+
+			function generateQRCode() {
+				var ssid = document.getElementById("ssid").value;
+				var password = document.getElementById("password").value;
+				document.getElementById("qr-code-container").innerHTML = ""; // delete old QR code
+
+				var qrCode = new QRCode(document.getElementById("qr-code-container"), {
+					text: "WIFI:S:" + ssid + ";T:WPA;P:" + password + ";;",
+					width : 256,
+					height : 256,
+					typeNumber : 4,
+					colorDark : "#000000",
+					colorLight : "#ffffff",
+					correctLevel : QRErrorCorrectLevel.H
+				});
+				qrCodeImage.src = qrCode._el.firstChild.toDataURL(); // get data URL from generated QR code
+				document.getElementById("qr-code-container").appendChild(qrCodeImage);
+			}
+
+			function exportQRCode() {
+				var canvas = document.createElement('canvas');
+				canvas.width = qrCodeImage.width;
+				canvas.height = qrCodeImage.height;
+				var context = canvas.getContext('2d');
+				context.drawImage(qrCodeImage, 0, 0);
+				var a = document.createElement('a');
+				a.href = canvas.toDataURL();
+				a.download = 'QRcode.png';
+				a.click();
+			}
+		</script>
 		<label for="ssid">Network Name (SSID)</label>
 		<input type="text" id="ssid" name="ssid" required>
 		<br>
@@ -21,46 +62,5 @@
 
 	</form>
 	<div id="qr-code-container"></div>
-	<script src="/scripts/qrcode.js"></script>
-	<script>
-		var QRErrorCorrectLevel = {
-			L: 1,
-			M: 0,
-			Q: 3,
-			H: 2
-		};
-
-		var qrCodeImage = document.createElement('img');
-
-		function generateQRCode() {
-			var ssid = document.getElementById("ssid").value;
-			var password = document.getElementById("password").value;
-			document.getElementById("qr-code-container").innerHTML = ""; // delete old QR code
-
-			var qrCode = new QRCode(document.getElementById("qr-code-container"), {
-				text: "WIFI:S:" + ssid + ";T:WPA;P:" + password + ";;",
-				width : 256,
-				height : 256,
-				typeNumber : 4,
-				colorDark : "#000000",
-				colorLight : "#ffffff",
-				correctLevel : QRErrorCorrectLevel.H
-			});
-			qrCodeImage.src = qrCode._el.firstChild.toDataURL(); // get data URL from generated QR code
-			document.getElementById("qr-code-container").appendChild(qrCodeImage);
-		}
-
-		function exportQRCode() {
-			var canvas = document.createElement('canvas');
-			canvas.width = qrCodeImage.width;
-			canvas.height = qrCodeImage.height;
-			var context = canvas.getContext('2d');
-			context.drawImage(qrCodeImage, 0, 0);
-			var a = document.createElement('a');
-			a.href = canvas.toDataURL();
-			a.download = 'qr-code.png';
-			a.click();
-		}
-	</script>
 </body>
 </html>
