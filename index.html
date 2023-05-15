@@ -21,7 +21,7 @@
 
 	</form>
 	<div id="qr-code-container"></div>
-	<script src="/scripts/qrcode.js"></script>
+	<script src="qrcode.js"></script>
 	<script>
 		var QRErrorCorrectLevel = {
 			L: 1,
@@ -58,7 +58,7 @@
 			context.drawImage(qrCodeImage, 0, 0);
 			var a = document.createElement('a');
 			a.href = canvas.toDataURL();
-			a.download = 'qr-code.png';
+			a.download = 'QRcode.png';
 			a.click();
 		}
 	</script>
