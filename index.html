@@ -1,73 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="print.css" media="print">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-	<title>WiFi QR Code</title>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description"
+		content="A simple Wi-Fi QR code generator to make connecting to password-protected Wi-Fi with a QR code!">
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
+	<title>Wi-Fi QR Code</title>
 </head>
+
 <body>
 	<header>
-        <a href="https://walker84837.github.io/"><i class="fas fa-home"></i></a>
-        <a href="https://github.com/walker84837/"><i class="fab fa-github"></i></a>
-        <a href="https://t.me/walker84837/"><i class="fab fa-telegram"></i></a>
-    </header>
-	<h1>WiFi QR Code Generator</h1>
-	<form>
-		<script src="qrcode.js"></script>
-		<script>
-			var QRErrorCorrectLevel = {
-				L: 1,
-				M: 0,
-				Q: 3,
-				H: 2
-			};
+		<a href="https://walker84837.github.io/"><i class="fas fa-home"></i></a>
+		<a href="https://github.com/walker84837/"><i class="fab fa-github"></i></a>
+		<a href="https://t.me/walker84837/"><i class="fab fa-telegram"></i></a>
+	</header>
+	<main>
+		<h1>Wi-Fi QR Code Generator</h1>
+		<form>
+			<label for="ssid">Network Name (SSID)</label>
+			<input autocomplete="off" type="text" id="ssid" name="ssid" required />
 
-			var qrCodeImage = document.createElement('img');
+			<label for="password">Password</label>
+			<input autocomplete="off" type="password" id="password" name="password" required />
 
-			function generateQRCode() {
-				var ssid = document.getElementById("ssid").value;
-				var password = document.getElementById("password").value;
-				document.getElementById("qr-code-container").innerHTML = ""; // delete old QR code
+			<label for="encryption">Encryption (input <code>nopass</code> if the network has no password):</label>
+			<input type="text" type="text" id="encryption" name="encryption" />
 
-				var qrCode = new QRCode(document.getElementById("qr-code-container"), {
-					text: "WIFI:S:" + ssid + ";T:WPA;P:" + password + ";;",
-					width : 256,
-					height : 256,
-					typeNumber : 4,
-					colorDark : "#000000",
-					colorLight : "#ffffff",
-					correctLevel : QRErrorCorrectLevel.H
-				});
-				qrCodeImage.src = qrCode._el.firstChild.toDataURL(); // get data URL from generated QR code
-				document.getElementById("qr-code-container").appendChild(qrCodeImage);
-			}
+			<button type="button" onclick="generateQRCode()">
+				Generate QR Code
+			</button>
+			<button type="button" id="export-btn" onclick="exportQRCode()">
+				Export as PNG
+			</button>
 
-			function exportQRCode() {
-				var canvas = document.createElement('canvas');
-				canvas.width = qrCodeImage.width;
-				canvas.height = qrCodeImage.height;
-				var context = canvas.getContext('2d');
-				context.drawImage(qrCodeImage, 0, 0);
-				var a = document.createElement('a');
-				a.href = canvas.toDataURL();
-				a.download = 'QRcode.png';
-				a.click();
-			}
-		</script>
-		<label for="ssid">Network Name (SSID)</label>
-		<input type="text" id="ssid" name="ssid" required>
-		<br>
-		<label for="password">Password</label>
-		<input type="password" id="password" name="password" required>
-		<br><br>
-		<button type="button" onclick="generateQRCode()">Generate QR Code</button>
-		<button type="button" id="export-btn" onclick="exportQRCode()">Export as PNG</button>
+			<p>This website is a <strong>simple Wi-Fi QR code generator</strong>, so you can connect to networks easily,
+				without having to waste your time in manually writing the password. <strong>This website is as basic as
+					possible</strong>, so please <strong>don't</strong> expect this to become the next-gen QR code
+				utility. If you wanna contribute to this small project, please don't hesitate to contribute to <a
+					href="https://github.com/walker84837/wifi-qrcode">my repository</a>.</p>
 
-	</form>
-	<div id="qr-code-container"></div>
+			<script src="qrcode.min.js"></script>
+			<script>
+				let qrCodeImage; // Declare the qrCodeImage variable outside the function for later use
+				let a;
+				function generateQRCode() {
+					const ssid = document.getElementById("ssid").value;
+					const password = document.getElementById("password").value;
+					const encryption = document.getElementById("encryption").value;
+
+					if (!document.getElementById('qr-code-container').innerHTML.trim()) {
+						let newDiv = document.createElement("div");
+
+						// Append the new div to the qr-code-container
+						let qrCodeContainer = document.getElementById("qr-code-container");
+						qrCodeContainer.appendChild(newDiv);
+
+						let qrCode = new QRCode(newDiv, {
+							text: "WIFI:S:" + ssid + ";T:" + encryption + ";P:" + password + ";;",
+							width: 256,
+							height: 256,
+							typeNumber: 4,
+							colorDark: "#131313",
+							colorLight: "#f2f2f2",
+							correctLevel: 2,
+						});
+
+						qrCodeImage = new Image();
+						qrCodeImage.src = qrCode._el.firstChild.toDataURL();
+
+						a = document.createElement("a");
+						a.href = qrCodeImage.src;
+						a.download = "QRcode.png";
+					}
+				}
+
+				function exportQRCode() {
+					a.click();
+				}
+
+			</script>
+		</form>
+		<div id="qr-code-container"></div>
+	</main>
+	<footer>Made with &#10084; by <a href="https://github.com/walker84837">walker84837</a></footer>
 </body>
+
 </html>

@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400&display=swap');
 
 :root {
 	--bg-color0: #131313;
@@ -7,47 +8,55 @@
 	--bg-color3: #383838;
 	--text-color: #f2f2f2;
 	--qr-code-color: #f2f2f2;
-	font-family: 'Roboto';
-	font-weight: 300;
-	font-size: 16px;
+	--font-family: 'Roboto', system-ui;
+	--font-weight: 300;
+	--font-size: 1em;
 	--spacing: 1rem;
+}
+
+* {
+	font-size: var(--font-size);
+	align-items: center;
+	font-weight: 300;
+	color: var(--text-color);
+	font-family: var(--font-family);
 }
 
 body {
 	background: var(--bg-color1);
-	color: var(--text-color);
-	width: 100%;
-	height: 100%;
 	margin: 0;
 	padding: 0;
 }
 
+main {
+	width: min(128ch, calc(100% - 4rem));
+	margin-inline: auto;
+	padding: 1.5rem;
+}
+
 header {
-    background-color: var(--bg-color0);
-    padding: var(--spacing);
-    display: flex;
-    justify-content: flex-end;
+	background-color: var(--bg-color0);
+	padding: var(--spacing);
+	display: flex;
+	justify-content: flex-end;
 }
 
 header a {
-    color: var(--text-color);
-    font-size: 1.5rem;
-    margin-left: 1rem;
-    transition: color 0.3s ease;
+	font-size: 1.5em;
+	margin-left: 1rem;
+	transition: color 300ms ease-in-out;
 }
 
-header a:hover {
-    color: #007bff;
+strong {
+	font-weight: 500;
 }
 
 h1 {
 	display: flex;
-    text-align: center;
+	text-align: center;
 	justify-content: center;
-	align-items: center;
-    font-family: 'Roboto';
-    font-weight: 800;
-    font-size: 1.875rem; /* 30pt converted to rem */
+	font-weight: 900;
+	font-size: 2.5em;
 }
 
 /* Center the form horizontally and vertically */
@@ -61,21 +70,20 @@ form {
 /* Style the form label and input fields */
 label {
 	display: block;
-	font-size: 1.2rem;
+	font-size: 1em;
 	margin-bottom: var(--spacing);
 }
 
 input {
-	font-family: 'Roboto';
 	padding: 0.5rem;
-	font-size: 1rem;
-	border: none;
-	border-radius: 5px;
+	border-color: #232323;
+	font-size: 1em;
 	width: 100%;
-	max-width: 300px;
+	border-radius: .5em;
+	max-width: 18.75em;
 	background-color: var(--bg-color2);
-	color: var(--text-color);
 	margin-bottom: var(--spacing);
+	transition: background-color 125ms ease-in-out;
 }
 
 input:focus {
@@ -85,28 +93,42 @@ input:focus {
 
 /* Style the button */
 button {
-	font-family: 'Roboto';
-	padding: 0.5rem 1rem;
-	font-size: 1rem;
+	padding: .5em 1em;
+	font-weight: 400;
 	background-color: #007bff;
-	color: #fff;
-	border: none;
-	border-radius: 5px;
+	border-color: #0F4D8F;
+	border-radius: .5em;
 	cursor: pointer;
-	transition: background-color 0.3s ease;
+	transition: background-color 300ms ease-in-out;
 	margin-bottom: var(--spacing);
 }
 
+button:hover {
+	background-color: #0062cc;
+}
+
 #export-btn {
-	transition: background-color 0.3s ease;
+	transition: background-color 300ms ease;
 }
 
 #export-btn.error {
 	background-color: #ff4800;
 }
 
-button:hover {
-	background-color: #0062cc;
+footer {
+	background-color: #1313137f;
+	text-align: center;
+	padding: 1.5rem;
+	font-size: 0.875em;
+}
+
+a {
+	color: #007bff;
+	transition: color 250ms ease-in-out;
+}
+
+a:hover {
+	color: #ff4800;
 }
 
 /* Style the QR code container */
@@ -114,7 +136,7 @@ button:hover {
 	display: flex;
 	justify-content: center;
 	position: relative;
-	margin-top: var(--spacing);
+	margin-bottom: var(--spacing);
 }
 
 /* Style the generated QR code image */
@@ -122,9 +144,17 @@ button:hover {
 	background-color: var(--qr-code-color);
 }
 
-/* Media query for small screens */
-@media (max-width: 768px) {
-	input {
-	max-width: none;
-	}
+::selection {
+	background-color: var(--bg-color3);
+}
+
+code {
+	break-after: avoid;
+	break-before: avoid;
+	font-family: 'Inconsolata', 'Courier New', Courier, monospace;
+}
+
+#twemoji-container {
+	font-size: 16px;
+	height: 1%;
 }
