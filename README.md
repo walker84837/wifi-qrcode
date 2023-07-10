@@ -20,8 +20,4 @@ Before submitting a pull request, please make sure to test your changes thorough
 
 Here are some known issues that we're working on fixing:
 
-- The QR code generator sometimes generates two codes on the first try, and generates a new one without removing the old ones.
 - Users can't currently customize the size of the QR code.
-- We need to ensure that the website works well on a variety of devices and browsers.
-
-While not critical, we also plan to improve the accessibility of the form for users with disabilities.
